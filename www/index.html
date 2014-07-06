@@ -1,0 +1,187 @@
+﻿<!DOCTYPE html><!--HTML5 doctype-->
+<html>
+<head>
+<title>Quantum Simulator</title>
+<meta http-equiv="Content-type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+<link rel="stylesheet" type="text/css" href="css/icons.css" />    
+
+<!--   
+<link rel="stylesheet" type="text/css" href="css/af.ui.css" title="default" />
+-->
+<link rel="stylesheet" type="text/css" href="css/main.css"  />
+<link rel="stylesheet" type="text/css" href="css/appframework.css"  />
+<link rel="stylesheet" type="text/css" href="css/lists.css"  />
+<link rel="stylesheet" type="text/css" href="css/forms.css"  />
+<link rel="stylesheet" type="text/css" href="css/buttons.css"  />        
+<link rel="stylesheet" type="text/css" href="css/badges.css"  />        
+<link rel="stylesheet" type="text/css" href="css/grid.css"  />
+
+<link rel="stylesheet" type="text/css" href="css/android.css"  />
+<link rel="stylesheet" type="text/css" href="css/win8.css"  />
+<link rel="stylesheet" type="text/css" href="css/bb.css"  />
+<link rel="stylesheet" type="text/css" href="css/ios.css"  />
+<link rel="stylesheet" type="text/css" href="css/ios7.css"  />
+<link rel="stylesheet" type="text/css" href="css/tizen.css"  />
+
+<link rel="stylesheet" type="text/css" href="plugins/css/af.actionsheet.css"  />
+<link rel="stylesheet" type="text/css" href="plugins/css/af.popup.css"  />
+<link rel="stylesheet" type="text/css" href="plugins/css/af.scroller.css"  />
+<link rel="stylesheet" type="text/css" href="plugins/css/af.selectBox.css"  />        
+
+<style type="text/css">
+    /* Prevent copy paste for all elements except text fields */
+
+    /* Set up the page with a default background image */
+
+
+
+
+	#todo-list .todo-destroy {display:block;}
+	ul.completed li {text-decoration:line-through;}
+    .jqmScrollbar{background:black !important;}
+</style>
+
+
+</head>
+<body>
+
+<div id="afui">
+    <div id="header">
+    <!-- header stuff -->
+    </div>
+
+    <div id="content">
+        <div title='First Page' id="first-page" class="panel" selected="true">
+            <div id='first-page-wrapper'></div>
+        </div>
+
+        <div id="input-page" class="panel">
+			<header id="inputheader">
+                        <h1>Inputs</h1>
+                        <a id="backButton" href="javascript:;" class="button" ></a>
+                        <a id="menubadge" onclick="af.ui.toggleSideMenu()" class="menuButton" style="float: left;"></a>
+            </header>
+            <div id='input-page-wrapper'></div>
+        </div>
+        
+        <div title='Categories' id="categories" class="panel">
+            <div id='categories-wrapper'></div>
+        </div>
+        
+        <div  id="loadingPage" class="panel">
+            <div id='loadingPage-wrapper'></div>
+        </div>
+        
+        <div  id="gateEdit" class="panel">
+            <div id='gateEdit-wrapper'></div>
+        </div>
+        
+        <div  id="gateOptions" class="panel">
+            <div id='gateOptions-wrapper'></div>
+        </div>
+        
+        <div  id="results" class="panel">
+            <div id='results-wrapper'></div>
+        </div>
+    </div>
+
+    <div id="navbar">
+        <a href="#first-page" class="icon home">main</a>
+        <a href="#input-page" class="icon target">archived</a> 
+    </div>
+    
+ <script type="text/javascript" charset="utf-8" src="./appframework.js"></script>      
+<script type="text/javascript" charset="utf-8" src="./plugins/af.actionsheet.js"></script>
+<script type="text/javascript" charset="utf-8" src="./plugins/af.css3animate.js"></script>
+<script type="text/javascript" charset="utf-8" src="./plugins/af.passwordBox.js"></script>          
+<script type="text/javascript" charset="utf-8" src="./plugins/af.scroller.js"></script>
+<script type="text/javascript" charset="utf-8" src="./plugins/af.selectBox.js"></script>
+<script type="text/javascript" charset="utf-8" src="./plugins/af.touchEvents.js"></script>
+<script type="text/javascript" charset="utf-8" src="./plugins/af.touchLayer.js"></script>
+<script type="text/javascript" charset="utf-8" src="./plugins/af.popup.js"></script>
+
+<script type="text/javascript" charset="utf-8" src="./ui/appframework.ui.js"></script>
+<!-- <script type="text/javascript" charset="utf-8" src="./ui/transitions/all.js"></script> -->
+<script type="text/javascript" charset="utf-8" src="./ui/transitions/fade.js"></script>
+<script type="text/javascript" charset="utf-8" src="./ui/transitions/flip.js"></script>
+<script type="text/javascript" charset="utf-8" src="./ui/transitions/pop.js"></script>
+<script type="text/javascript" charset="utf-8" src="./ui/transitions/slide.js"></script>
+<script type="text/javascript" charset="utf-8" src="./ui/transitions/slideDown.js"></script>
+<script type="text/javascript" charset="utf-8" src="./ui/transitions/slideUp.js"></script>
+<script type="text/javascript" charset="utf-8" src="./plugins/af.slidemenu.js"></script>    
+    
+<script type="text/javascript" charset="utf-8" src="libs/af.mvc.js"></script>
+
+<script type="text/javascript" charset="utf-8" src="js/app.js"></script>
+<script type="text/javascript">
+	/* This function runs once the page is loaded, but intel.xdk is not yet active */
+	//$.ui.animateHeaders=false;
+	 var search=document.location.search.toLowerCase().replace("?","");
+	 //if(!search)
+	$.ui.useOSThemes=true;
+	if(search.length>0) //Android fix has too many buggy issues on iOS - can't preview with $.os.android
+	{
+
+	   $.ui.useOSThemes=true;
+		if(search=="win8")
+			$.os.ie=true;
+		$.ui.ready(function(){
+			$("#afui").get(0).className=search;
+		});
+	}
+	
+	var webRoot = "./";
+	// $.os.android=true;
+	//$.ui.autoLaunch = false;
+	$.ui.openLinksNewTab = false;
+	$.ui.splitview=false;
+	
+
+	$(document).ready(function(){
+		  // $.ui.launch();
+
+	});
+	
+	/* This code is used to run as soon as intel.xdk activates */
+	var onDeviceReady = function () {
+		intel.xdk.device.setRotateOrientation("portrait");
+		intel.xdk.device.setAutoRotate(false);
+		webRoot = intel.xdk.webRoot + "";
+		//hide splash screen
+		intel.xdk.device.hideSplashScreen();
+		$.ui.blockPageScroll(); //block the page from scrolling at the header/footer
+	};
+	document.addEventListener("intel.xdk.device.ready", onDeviceReady, false);
+
+	function showHide(obj, objToHide) {
+		var el = $("#" + objToHide)[0];
+
+		if (obj.className == "expanded") {
+			obj.className = "collapsed";
+		} else {
+			obj.className = "expanded";
+		}
+		$(el).toggle();
+
+	}
+
+
+	if($.os.android||$.os.ie||search=="android"){
+		$.ui.ready(function(){
+			$("#main .list").append("<li><a id='toggleAndroidTheme'>Toggle Theme Color</a></li>");
+			var $el=$("#afui");
+			$("#toggleAndroidTheme").bind("click",function(e){
+				if($el.hasClass("light"))
+					$el.removeClass("light");
+				else
+					$el.addClass("light");
+			});
+		});
+	}                        
+</script>
+</div>
+
+</body>
+</html>
