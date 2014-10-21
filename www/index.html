@@ -53,15 +53,15 @@
     </div>
 
     <div id="content">
-        <div title='First Page' id="first-page" class="panel" selected="true">
+        <div title='Quantum Simulator' id="first-page" class="panel" selected="true">
             <div id='first-page-wrapper'></div>
         </div>
 
         <div id="input-page" class="panel">
 			<header id="inputheader">
+				<a onclick='$.ui.toggleLeftSideMenu()' class='button menuButton' style="float:left"></a>
                         <h1>Inputs</h1>
-                        <a id="backButton" href="javascript:;" class="button" ></a>
-                        <a id="menubadge" onclick="af.ui.toggleSideMenu()" class="menuButton" style="float: left;"></a>
+                        
             </header>
             <div id='input-page-wrapper'></div>
         </div>
@@ -77,7 +77,12 @@
         <div  id="gateEdit" class="panel">
             <div id='gateEdit-wrapper'></div>
         </div>
-        
+
+        <div  id="setStartingState" class="panel">
+            <div id='setStartingState-wrapper'></div>
+        </div>
+
+
         <div  id="gateOptions" class="panel">
             <div id='gateOptions-wrapper'></div>
         </div>
@@ -115,6 +120,7 @@
 <script type="text/javascript" charset="utf-8" src="libs/af.mvc.js"></script>
 
 <script type="text/javascript" charset="utf-8" src="js/app.js"></script>
+<script type="text/javascript" charset="utf-8" src="js/get_sim_data.js"></script>
 <script type="text/javascript">
 	/* This function runs once the page is loaded, but intel.xdk is not yet active */
 	//$.ui.animateHeaders=false;
@@ -179,9 +185,32 @@
 					$el.addClass("light");
 			});
 		});
-	}                        
+	}      
+	$.ui.slideSideMenu = true;                  
 </script>
 </div>
+
+<nav>
+	<ul class="list">
+		<li class="divider" ></li>
+		<li>
+			<a onclick="$.mvc.route('/input/add_line');">Add Line</a>
+		</li>
+		<li>
+			<a onclick="$.mvc.route('/input/add_step');">Add Step</a>
+		</li>
+		<li>
+			<a onclick="$.mvc.route('/input/delete_step');">Delete Step</a>
+		</li>
+		<li>
+			<a onclick="$.mvc.route('/input/simulate');">Simulate</a>
+		</li>
+		<li>
+			<a href="#uiapi">Preview</a>
+		</li>
+	 
+	</ul>
+</nav>
 
 </body>
 </html>

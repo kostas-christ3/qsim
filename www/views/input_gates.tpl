@@ -1,7 +1,8 @@
-<div class="formGroupHead">Grouping</div>
+<div class="formGroupHead"></div>
 	<form>
 		<div class="input-group">
 			<select id="gate_type" onchange="$.mvc.route('/input/select_gate/'+this.value);">
+				<option id="null" >Select Gate</option>
 				<option id="I" value="0">I</option>
 				<option id="H" value="1">H</option>
 				<option id="Ph" value="2">Ph</option>

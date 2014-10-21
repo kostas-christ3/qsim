@@ -5,12 +5,20 @@ var inputCtrl = $.mvc.controller.create("input", {
         "step_transition_tpl": "views/step_transition.tpl",
         "gate_options_tpl": "views/gate_options.tpl",
         "gate_edit_form_tpl": "views/gate_edit_form.tpl",
+        "set_starting_state_tpl": "views/set_starting_state.tpl"
     },
     
     init:function(){
         //Here we can run any initializing code for this controller/
+        
     },
     default:function(){       
+        $.ui.autoLaunch = false;
+        $.ui.animateHeaders = false;
+                
+		$.ui.setSideMenuWidth('260px');
+		$.ui.launch();
+       
         
         QS.currentStep = 1;
         $("#input-page-wrapper").html($.template("input_tpl", {
@@ -32,6 +40,17 @@ var inputCtrl = $.mvc.controller.create("input", {
 		
 	},
 	
+    add_line:function(){
+		
+		QS.addLine();
+		
+		$.ui.loadContent("#input-page",false,false,"pop");
+		$("#input-page-wrapper").html($.template("input_tpl", {
+				QS : QS
+		}));
+		
+	},
+	
     add_step:function(){
 		QS.addStep();
 		$("#input-page-wrapper").html($.template("input_tpl", {
@@ -40,6 +59,8 @@ var inputCtrl = $.mvc.controller.create("input", {
 		
 		console.log(QS);
 	},
+	
+   
 	
 	next_step:function(){
 		QS.currentStep++;
@@ -83,11 +104,11 @@ var inputCtrl = $.mvc.controller.create("input", {
 	
     edit_gate:function(current_step, gate_id){
 		var e = document.getElementById("gate_type");
-		var new_name = e.options[e.selectedIndex].value;
-		var new_value = e.options[e.selectedIndex].id;
+		var new_name = e.options[e.selectedIndex].id;
+		var new_value = e.options[e.selectedIndex].value;
 		
 		QS.board[current_step-1].gates[gate_id].name = new_name;
-		QS.board[current_step-1].gates[gate_id].name = new_value;
+		QS.board[current_step-1].gates[gate_id].value = new_value;
 		
 		$.ui.loadContent("#input-page",false,false,"pop");
 		$("#input-page-wrapper").html($.template("input_tpl", {
@@ -95,17 +116,35 @@ var inputCtrl = $.mvc.controller.create("input", {
 		}));
 	},
 	
-    delete_gate:function(gate_id){
-		QS.board[QS.currentStep-1].gates.splice(gate_id, 1);
-		for(var i=0; i<QS.board[QS.currentStep-1].gates.length; i++)
-		{
-			QS.board[QS.currentStep-1].gates[i].gate_id = i;
-		}
-		
+    delete_line:function(gate_id){
+		QS.deleteLine(gate_id);
+			
 		$.ui.loadContent("#input-page",false,false,"pop");
 		$("#input-page-wrapper").html($.template("input_tpl", {
 				QS : QS
 		}));
+	},
+
+    set_starting_state:function(gate_id){
+        var e = document.getElementById("starting_state_select");
+        var value = e.options[e.selectedIndex].value;
+
+		QS.set_starting_state(gate_id, parseInt(value));
+
+		$.ui.loadContent("#input-page",false,false,"pop");
+		$("#input-page-wrapper").html($.template("input_tpl", {
+				QS : QS
+		}));
+    },
+
+    set_starting_state_panel:function(gate_id){
+
+
+		$.ui.loadContent("#setStartingState",false,false,"pop");
+		$("#setStartingState-wrapper").html($.template("set_starting_state_tpl", {
+            QS : QS,
+            gate_id : gate_id
+        }));
 	},
 	
     delete_step:function(gate_id){
@@ -153,7 +192,7 @@ var inputCtrl = $.mvc.controller.create("input", {
 		}));
     },
     
-	simulate:function(gate_id){
+	simulate:function(){
 		
 		$.ajax({
 		    type:"GET",
@@ -164,8 +203,40 @@ var inputCtrl = $.mvc.controller.create("input", {
 				$("#results").html(data);
 			}
 		});
+		//get_simulation_data(QS);
 		
 		
-    }
+    },
+	move_line_up:function(gate_id){
+		
+		QS.moveLineUp(gate_id);
+		
+		$.ui.loadContent("#input-page",false,false,"pop");
+		$("#input-page-wrapper").html($.template("input_tpl", {
+				QS : QS
+		}));
+		$("#inputheader h1").html('Step ' + QS.currentStep);
+		
+		
+    },
+	move_line_down:function(gate_id){
+		
+		QS.moveLineDown(gate_id);
+		
+		$.ui.loadContent("#input-page",false,false,"pop");
+		$("#input-page-wrapper").html($.template("input_tpl", {
+				QS : QS
+		}));
+		$("#inputheader h1").html('Step ' + QS.currentStep);
+		
+    },
+    cancel_button:function()
+    {
+		$.ui.loadContent("#input-page",false,false,"pop");
+		$("#input-page-wrapper").html($.template("input_tpl", {
+				QS : QS
+		}));
+		$("#inputheader h1").html('Step ' + QS.currentStep);
+	}
 	
 });

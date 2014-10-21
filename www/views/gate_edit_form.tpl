@@ -1,4 +1,4 @@
-<div class="formGroupHead">Grouping</div>
+<div class="formGroupHead"></div>
 	<form>
 		<div class="input-group">
 			<select id="gate_type">
